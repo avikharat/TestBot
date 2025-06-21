@@ -35,14 +35,21 @@ jobs:
         pip install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cpu
         pip install -r SadTalker/requirements.txt
 
-    - name: Download pretrained models
+    - name: Download pretrained models (v0.0.2-rc)
       run: |
         mkdir -p checkpoints
         cd checkpoints
-        wget https://github.com/OpenTalker/SadTalker/releases/download/v0.0.2/SadTalker_V0.0.2_256.safetensors
-        wget https://github.com/OpenTalker/SadTalker/releases/download/v0.0.2/SadTalker_V0.0.2_512.safetensors
+    
+        wget https://github.com/OpenTalker/SadTalker/releases/download/v0.0.2-rc/SadTalker_V0.0.2_256.safetensors
+        wget https://github.com/OpenTalker/SadTalker/releases/download/v0.0.2-rc/SadTalker_V0.0.2_512.safetensors
+    
+        wget https://github.com/OpenTalker/SadTalker/releases/download/v0.0.2-rc/mapping_00229-model.pth.tar
+    
+        wget https://github.com/OpenTalker/SadTalker/releases/download/v0.0.2-rc/auido2exp.pth
+        wget https://github.com/OpenTalker/SadTalker/releases/download/v0.0.2-rc/auido2pose.pth
+        wget https://github.com/OpenTalker/SadTalker/releases/download/v0.0.2-rc/refiner.pth
+    
         cd ..
-
     - name: Extract first frame from video as source image
       run: |
         mkdir -p extracted
