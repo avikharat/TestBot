@@ -1,0 +1,53 @@
+name: SadTalker Inference (CPU)
+
+on:
+  workflow_dispatch:
+
+jobs:
+  run-inference:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v3
+
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v4
+      with: python-version: '3.8'
+
+    - name: Install system deps
+      run: |
+        sudo apt update
+        sudo apt install -y ffmpeg libgl1 wget unzip
+
+    - name: Install Python deps
+      run: |
+        python -m venv venv
+        source venv/bin/activate
+        pip install --upgrade pip
+        pip install \
+          torch torchvision torchaudio \
+          --index-url https://download.pytorch.org/whl/cpu
+        pip install -r SadTalker/requirements.txt
+
+    - name: Download pretrained models
+      run: |
+        mkdir -p checkpoints
+        cd checkpoints
+        wget https://github.com/OpenTalker/SadTalker/releases/download/v0.0.2/SadTalker_V0.0.2_256.safetensors
+        wget https://github.com/OpenTalker/SadTalker/releases/download/v0.0.2/SadTalker_V0.0.2_512.safetensors
+        cd ..
+
+    - name: Run inference
+      run: |
+        source venv/bin/activate
+        python SadTalker/inference.py \
+          --driven_audio assets/demo.wav \
+          --source_image assets/example.png \
+          --result_dir output \
+          --cpu
+
+    - name: Upload output artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: sadtalker-output
+        path: output
