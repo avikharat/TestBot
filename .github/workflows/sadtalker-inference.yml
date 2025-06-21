@@ -15,7 +15,7 @@ jobs:
       run: |
         git clone https://github.com/OpenTalker/SadTalker.git
         cd SadTalker
-        git checkout master
+        git checkout main
 
     - name: Set up Python 3.8
       uses: actions/setup-python@v5
