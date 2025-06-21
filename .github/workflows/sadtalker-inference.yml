@@ -45,10 +45,6 @@ jobs:
     
         wget https://github.com/OpenTalker/SadTalker/releases/download/v0.0.2-rc/mapping_00229-model.pth.tar
     
-        wget https://github.com/OpenTalker/SadTalker/releases/download/v0.0.2-rc/auido2exp.pth
-        wget https://github.com/OpenTalker/SadTalker/releases/download/v0.0.2-rc/auido2pose.pth
-        wget https://github.com/OpenTalker/SadTalker/releases/download/v0.0.2-rc/refiner.pth
-    
         cd ..
     - name: Extract first frame from video as source image
       run: |
