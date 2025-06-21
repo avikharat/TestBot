@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout your repo (for inputs like audio/image)
+    - name: Checkout your repo
       uses: actions/checkout@v4
 
     - name: Clone SadTalker repository
@@ -43,12 +43,17 @@ jobs:
         wget https://github.com/OpenTalker/SadTalker/releases/download/v0.0.2/SadTalker_V0.0.2_512.safetensors
         cd ..
 
+    - name: Extract first frame from video as source image
+      run: |
+        mkdir -p extracted
+        ffmpeg -i "Brooke Studio 0621.mp4" -vf "select=eq(n\,0)" -q:v 3 extracted/source.png
+
     - name: Run inference
       run: |
         source venv/bin/activate
         python SadTalker/inference.py \
-          --driven_audio assets/demo.wav \
-          --source_image assets/example.png \
+          --driven_audio "voice.mp3" \
+          --source_image extracted/source.png \
           --result_dir output \
           --cpu
 
